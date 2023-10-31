@@ -25,7 +25,7 @@ func NewServer() *Server {
 		Router:    mux.NewRouter(),
 		gamesList: []Game{},
 	}
-
+	server.SetupRoutes()
 	return server
 }
 
