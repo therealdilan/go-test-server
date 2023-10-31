@@ -1,0 +1,30 @@
+##GET
+GET http://localhost:8080/games
+
+
+### POST GAME 1
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+    "name": "DOOM Eternal",
+    "rating": "90/100"
+}
+
+### POST GAME 2
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+    "name": "Super Mario Galaxy",
+    "rating": "99/100"
+}
+
+### POST GAME 3
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+    "name": "Terraria",
+    "rating": "92/100"
+}

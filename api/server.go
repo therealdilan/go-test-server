@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -26,6 +27,7 @@ func NewServer() *Server {
 		gamesList: []Game{},
 	}
 	server.SetupRoutes()
+	fmt.Println("Server is running")
 	return server
 }
 
