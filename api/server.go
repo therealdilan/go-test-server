@@ -1,14 +1,17 @@
-package api 
+package api
 
 import (
+	"encoding/json"
+	"net/http"
+
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
 type Game struct {
-	ID uuid.UUID 'json:"id"'
-	Name string 'json:"name"'
-	Rating string 'json:"rating"'
+	ID     uuid.UUID `json:"id"`
+	Name   string    `json:"name"`
+	Rating string    `json:"rating"`
 }
 
 type Server struct {
@@ -19,7 +22,7 @@ type Server struct {
 
 func NewServer() *Server {
 	server := &Server{
-		Router: mux.NewRouter(),
+		Router:    mux.NewRouter(),
 		gamesList: []Game{},
 	}
 
@@ -37,22 +40,24 @@ func (server *Server) addNewGame() http.HandlerFunc {
 		if err := json.NewDecoder(r.Body).Decode(&i); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
-	}
+		}
 
-	i.ID = uuid.New()
-	s.gamesList = append(s.gamesList, i)
-	
-	w.Header().set("Content-Type", "application/json")
+		i.ID = uuid.New()
+		server.gamesList = append(server.gamesList, i)
 
-	if err := json.NewDecoder(w, err.Error(), http.StatusInternalServerError)
-		return
+		w.Header().Set("Content-Type", "application/json")
+
+		if err := json.NewEncoder(w).Encode(i); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
 func (server *Server) showGamesList() http.HandlerFunc {
-	return func(w https.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		if  err := json.NewEncoder(w).Encode(s.gamesList); err != nil {
+		if err := json.NewEncoder(w).Encode(server.gamesList); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
